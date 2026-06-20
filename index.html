@@ -3,130 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>معرض أعمال VORTX البرمجية</title>
+    <title>استديو VORTX البرمجي | معرض الأعمال الفاخر</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-main: #050508;
-            --card-bg: rgba(15, 15, 24, 0.75);
-            --accent-cyan: #00f2fe;
-            --accent-gold: #d4af37;
-            --text-white: #ffffff;
-            --text-gray: #a0a0ab;
+            --bg-dark: #030305;
+            --card-glass: rgba(10, 10, 16, 0.7);
+            --neon-cyan: #00f2fe;
+            --neon-gold: #d4af37;
+            --text-pure: #ffffff;
+            --text-muted: #94a3b8;
         }
 
-        html, body { width: 100%; height: 100%; overflow-x: hidden; margin: 0; padding: 0; background-color: var(--bg-main); }
-        
-        /* جعل التفاعلات سريعة جداً (0.15 ثانية بدال 0.3) */
-        * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease; }
+        /* الثبات المطلق ومنع الهز يمين ويسار نهائياً */
+        html, body { width: 100%; height: 100%; overflow-x: hidden; margin: 0; padding: 0; background-color: var(--bg-dark); }
+        * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease; }
 
         body {
-            background: radial-gradient(circle at 50% 50%, #0f0f1f 0%, #050508 100%);
-            color: var(--text-white);
+            /* خلفية سينمائية متحركة بشكل خفيف وناعم جداً */
+            background: radial-gradient(circle at 50% 50%, #0d0d1f 0%, #030305 100%);
+            color: var(--text-pure);
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 20px;
+            padding: 60px 20px;
             min-height: 100vh;
+            position: relative;
         }
 
-        .bg-glow { position: fixed; width: 500px; height: 500px; background: radial-gradient(circle, rgba(0, 242, 254, 0.08) 0%, rgba(0,0,0,0) 70%); filter: blur(80px); top: -10%; left: -10%; pointer-events: none; z-index: 0; }
-        .bg-glow-2 { position: fixed; width: 500px; height: 500px; background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, rgba(0,0,0,0) 70%); filter: blur(80px); bottom: -10%; right: -10%; pointer-events: none; z-index: 0; }
+        /* --- شبكة الخطوط الفخمة والخلفية المضيئة المتزنة --- */
+        .bg-pattern { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-image: linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; opacity: 0.5; }
+        .glow-sphere-1 { position: fixed; width: 600px; height: 600px; background: radial-gradient(circle, rgba(0, 242, 254, 0.06) 0%, rgba(0,0,0,0) 70%); filter: blur(120px); top: -20%; left: -10%; pointer-events: none; z-index: 0; }
+        .glow-sphere-2 { position: fixed; width: 600px; height: 600px; background: radial-gradient(circle, rgba(212, 175, 55, 0.04) 0%, rgba(0,0,0,0) 70%); filter: blur(120px); bottom: -20%; right: -10%; pointer-events: none; z-index: 0; }
 
-        .container { width: 100%; max-width: 600px; z-index: 1; text-align: center; }
+        /* الإطار النيون النحيف المحيط بكامل الشاشة */
+        .global-frame { position: fixed; top: 12px; right: 12px; bottom: 12px; left: 12px; border: 1px solid rgba(0, 242, 254, 0.05); border-radius: 24px; pointer-events: none; z-index: 10; }
 
-        .profile-section { margin-bottom: 40px; }
-        .avatar-glow { width: 90px; height: 90px; background: linear-gradient(45deg, var(--accent-cyan), var(--accent-gold)); border-radius: 50%; margin: 0 auto 20px; display: flex; justify-content: center; align-items: center; font-size: 2.2rem; font-weight: 900; color: #000; font-family: 'Cairo', sans-serif; box-shadow: 0 0 25px rgba(0, 242, 254, 0.3); }
-        
-        h1 { font-family: 'Cairo', sans-serif; font-weight: 900; font-size: 2.2rem; margin-bottom: 10px; background: linear-gradient(45deg, #fff, var(--accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .subtitle { color: var(--accent-gold); font-weight: 700; font-size: 1.1rem; margin-bottom: 20px; letter-spacing: 1px; }
-        .bio { color: var(--text-gray); font-size: 1.1rem; line-height: 1.7; background: var(--card-bg); padding: 25px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
+        .main-wrapper { width: 100%; max-width: 580px; z-index: 1; text-align: center; }
 
-        .section-title { font-family: 'Cairo', sans-serif; font-size: 1.5rem; text-align: right; margin: 40px 10px 20px 0; color: var(--text-white); border-right: 3px solid var(--accent-cyan); padding-right: 10px; }
+        /* ====================================================
+           👑 شعار ولوجو البراند المطور (VORTX Glow Logo)
+           ==================================================== */
+        .profile-container { margin-bottom: 50px; position: relative; }
         
-        .project-card { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 18px; padding: 25px; margin-bottom: 20px; text-align: right; backdrop-filter: blur(10px); position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; }
+        .logo-box {
+            position: relative;
+            width: 105px;
+            height: 105px;
+            margin: 0 auto 25px;
+        }
+        /* حلقة النيون الدوارة خلف الشعار */
+        .logo-ring {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border: 2px solid transparent;
+            border-top-color: var(--neon-cyan);
+            border-bottom-color: var(--neon-gold);
+            border-radius: 50%;
+            animation: spinRing 4s linear infinite;
+        }
+        @keyframes spinRing { 100% { transform: rotate(360deg); } }
         
-        /* تأثيرات الديسكتوب فقط لمنع تعليق الجوال */
+        .logo-core {
+            position: absolute;
+            top: 5px; left: 5px; width: 95px; height: 95px;
+            background: #09090e;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Cairo', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--text-pure);
+            text-shadow: 0 0 15px rgba(0, 242, 254, 0.6);
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: inset 0 0 15px rgba(0, 242, 254, 0.2);
+        }
+
+        h1 { font-family: 'Cairo', sans-serif; font-weight: 900; font-size: 2.4rem; margin-bottom: 8px; background: linear-gradient(45deg, #ffffff, #bbf2f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px; }
+        .role-tag { color: var(--neon-gold); font-weight: 700; font-size: 1.1rem; margin-bottom: 25px; letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 10px rgba(212,175,55,0.2); }
+        .about-card { color: var(--text-muted); font-size: 1.1rem; line-height: 1.7; background: var(--card-glass); padding: 28px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.06); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+
+        /* تخصصات المبرمج لزيادة الهيبة البصرية */
+        .skills-row { display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+        .skill-badge { font-size: 0.75rem; padding: 4px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; color: #cbd5e1; font-weight: bold; }
+
+        .section-headline { font-family: 'Cairo', sans-serif; font-size: 1.4rem; text-align: right; margin: 45px 10px 20px 0; color: var(--text-pure); border-right: 3px solid var(--neon-cyan); padding-right: 12px; font-weight: 700; }
+        
+        /* ====================================================
+           💎 كروت المشاريع المطورة بنظام زجاجي عاكس وفوري اللمس
+           ==================================================== */
+        .project-widget { background: var(--card-glass); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; padding: 28px; margin-bottom: 22px; text-align: right; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; }
+        
+        /* تفعيل حواف النيون والتوهج عند حركية الديسكتوب فقط */
         @media (hover: hover) {
-            .project-card:hover { border-color: var(--accent-cyan); transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0, 242, 254, 0.15); }
+            .project-widget:hover { border-color: rgba(0, 242, 254, 0.4); transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0, 242, 254, 0.12); }
         }
         
-        /* تفاعل فوري وسريع للمس بالجوال */
-        .project-card:active { transform: scale(0.98); background: rgba(255,255,255,0.02); }
+        /* الاستجابة الفورية والكبس السريع للجوال لمنع الثقل والتعليق */
+        .project-widget:active { transform: scale(0.97); background: rgba(255,255,255,0.02); border-color: var(--neon-cyan); }
 
-        .project-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 15px; }
-        .project-title { font-size: 1.3rem; font-weight: 900; color: #fff; }
+        .widget-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; gap: 15px; }
+        .widget-title { font-size: 1.35rem; font-weight: 900; color: #ffffff; letter-spacing: -0.3px; }
         
-        /* حل مشكلة نزول الحروف تحت (الـ Wrapping) */
-        .project-badge { 
-            font-size: 0.8rem; 
-            padding: 5px 12px; 
-            border-radius: 20px; 
-            font-weight: bold; 
-            white-space: nowrap; /* يمنع الكلمة تنزل سطر جديد نهائياً */
-            flex-shrink: 0; /* يمنع العناصر تضغط المربع وتصغره */
-        }
-        .badge-js { background: rgba(0, 242, 254, 0.15); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); }
-        .badge-css { background: rgba(212, 175, 55, 0.15); color: var(--accent-gold); border: 1px solid var(--accent-gold); }
+        /* قفل ملف نزول الحروف تحت بالملي */
+        .lang-tag { font-size: 0.8rem; padding: 5px 14px; border-radius: 20px; font-weight: bold; white-space: nowrap; flex-shrink: 0; }
+        .tag-js { background: rgba(0, 242, 254, 0.12); color: var(--neon-cyan); border: 1px solid rgba(0, 242, 254, 0.25); }
+        .tag-css { background: rgba(212, 175, 55, 0.12); color: var(--neon-gold); border: 1px solid rgba(212, 175, 55, 0.25); }
         
-        .project-desc { color: var(--text-gray); font-size: 1rem; line-height: 1.6; margin-bottom: 20px; }
+        .widget-desc { color: var(--text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: 22px; }
         
-        .btn-view { display: inline-block; width: 100%; text-align: center; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); padding: 14px; border-radius: 12px; color: #fff; text-decoration: none; font-weight: 700; font-size: 1rem; }
-        .project-card:hover .btn-view { background: linear-gradient(45deg, var(--accent-cyan), #0072ff); color: #000; border-color: transparent; box-shadow: 0 5px 15px rgba(0, 242, 254, 0.3); }
-        .btn-view:active { transform: scale(0.99); }
+        /* زر المعاينة الفخم والمضيء */
+        .action-link { display: inline-block; width: 100%; text-align: center; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); padding: 15px; border-radius: 12px; color: var(--text-pure); text-decoration: none; font-weight: 700; font-size: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .project-widget:hover .action-link { background: linear-gradient(45deg, var(--neon-cyan), #0072ff); color: #000; border-color: transparent; box-shadow: 0 6px 20px rgba(0, 242, 254, 0.35); }
+        .action-link:active { transform: scale(0.99); }
 
-        footer { margin-top: 50px; color: rgba(255,255,255,0.2); font-size: 0.85rem; }
+        footer { margin-top: 60px; color: rgba(255,255,255,0.15); font-size: 0.85rem; letter-spacing: 0.5px; }
     </style>
 </head>
 <body>
 
-    <div class="bg-glow"></div>
-    <div class="bg-glow-2"></div>
+    <!-- خطوط الشبكة الفخمة وكرات التوهج الثابتة بالخلفية لمنع الاهتزاز -->
+    <div class="bg-pattern"></div>
+    <div class="glow-sphere-1"></div>
+    <div class="glow-sphere-2"></div>
 
-    <div class="container">
+    <!-- الإطار النيون المحيط بالموقع بالكامل يعطي مظهر استديو برمجيات مغلق -->
+    <div class="global-frame"></div>
+
+    <div class="main-wrapper">
         
-        <div class="profile-section">
-            <div class="avatar-glow">V</div>
+        <!-- بروفايل وهوية المبرمج المحدثة باللوجو المضيء -->
+        <div class="profile-container">
+            <div class="logo-box">
+                <div class="logo-ring"></div>
+                <div class="logo-core">V</div>
+            </div>
             <h1>VORTX DEVELOPER</h1>
-            <div class="subtitle">مطور واجهات ويب وتطبيقات تفاعلية</div>
-            <div class="bio">
-                أهلاً بك في منصة أعمالي الرسمية. أنا مطور واجهات مستخدم (UI/UX Developer) متخصص في هندسة وبناء المواقع الحديثة بكود نظيف ومتزن بالكامل، مع تقديم تجارب بصرية فاخرة تلائم متطلبات سوق العمل.
+            <div class="role-tag">هندسة وتطوير واجهات الويب التفاعلية</div>
+            <div class="about-card">
+                مرحباً بك في المنصة الرسمية لاستديو أعمالي. متخصص في هندسة وبناء واجهات المستخدم الرقمية (UI/UX Deployment) وتطوير الأنظمة البرمجية التفاعلية بكود نظيف، متزن، ومتجاوب بالكامل. أركز على دمج جمالية التصميم مع سرعة الأداء الفائقة لتلبية معايير سوق العمل الاحترافي.
+                
+                <!-- شارات مهارات تقفل ملف الاحترافية -->
+                <div class="skills-row">
+                    <span class="skill-badge">HTML5 / CSS3</span>
+                    <span class="skill-badge">JavaScript ES6</span>
+                    <span class="skill-badge">UI/UX Architecture</span>
+                    <span class="skill-badge">Responsive Engine</span>
+                </div>
             </div>
         </div>
 
-        <div class="section-title">المشاريع المنجزة المعتمدة</div>
+        <div class="section-headline">معرض المشاريع المعتمدة للإنتاج</div>
 
-        <!-- 1. رابط القناة الأساسي (أول واحد) -->
-        <div class="project-card">
-            <div class="project-header">
-                <div class="project-title">🔗 بوابة الهوية الرقمية VORTX</div>
-                <span class="project-badge badge-css">HTML / CSS</span>
+        <!-- 1. مشروع صفحة الهوية الرقمية والقناة (الأول) -->
+        <div class="project-widget">
+            <div class="widget-header">
+                <div class="widget-title">🔗 بوابة الهوية الرقمية VORTX</div>
+                <span class="lang-tag tag-css">HTML / CSS</span>
             </div>
-            <div class="project-desc">صفحة هبوط متكاملة وبوابة رقمية موحدة مخصصة لجمع قنوات التواصل الاجتماعي ومنصات صناعة المحتوى الخاصة ببراند فورتكس بتصميم عصري وأزرار مضيئة.</div>
-            <a href="https://vortx-editor.github.io/Cood/" target="_blank" class="btn-view">معاينة المشروع الحي 🚀</a>
+            <div class="widget-desc">صفحة هبوط متكاملة وبوابة موحدة مخصصة لربط قنوات صناعة المحتوى ومنصات التواصل الاجتماعي للبراند، تعتمد على التوزيع المتزن والتأثيرات النيون المضيئة.</div>
+            <a href="https://vortx-editor.github.io/Cood/" target="_blank" class="action-link">معاينة المشروع الحي 🚀</a>
         </div>
 
-        <!-- 2. رابط التباريك والتهاني الرقمية -->
-        <div class="project-card">
-            <div class="project-header">
-                <div class="project-title">✨ استديو التهنئة الفاخر الذكي</div>
-                <span class="project-badge badge-js">HTML / CSS / JS</span>
+        <!-- 2. مشروع منصة التباريك والتهاني الذكية -->
+        <div class="project-widget">
+            <div class="widget-header">
+                <div class="widget-title">✨ استديو التهنئة الفاخر الذكي</div>
+                <span class="lang-tag tag-js">HTML / CSS / JS</span>
             </div>
-            <div class="project-desc">منصة تفاعلية ذكية تتيح للمستخدمين توليد بطاقات ومعايدات رقمية فاخرة وطويلة بشكل فوري بناءً على خياراتهم مع حفر اسم المستلم برمجياً داخل القوالب.</div>
-            <a href="https://vortx-editor.github.io/Coodd/" target="_blank" class="btn-view">معاينة المشروع الحي 🚀</a>
+            <div class="project-desc">تطبيق ويب تفاعلي ذكي يتيح للمستخدمين توليد بطاقات ومعايدات رقمية طويلة وفاخرة فوراً بناءً على خياراتهم مع حفر اسم المستلم برمجياً في قلب القوالب الزجاجية والملكية.</div>
+            <a href="https://vortx-editor.github.io/Coodd/" target="_blank" class="action-link">معاينة المشروع الحي 🚀</a>
         </div>
 
-        <!-- 3. رابط المنيو (تم تنظيف الرابط من حوسة إنستغرام) -->
-        <div class="project-card">
-            <div class="project-header">
-                <div class="project-title">☕ منيو أروما كافيه الرقمي</div>
-                <span class="project-badge badge-css">HTML / CSS</span>
+        <!-- 3. مشروع منيو أروما كافيه الرقمي -->
+        <div class="project-widget">
+            <div class="widget-header">
+                <div class="widget-title">☕ منيو أروما كافيه الرقمي</div>
+                <span class="lang-tag tag-css">HTML / CSS</span>
             </div>
-            <div class="project-desc">قالب منيو إلكتروني فاخر (QR Menu) مخصص للمقاهي المختصة، يعتمد على المظهر الداكن والمتزن مع تطعيمات باللون الذهبي الملكي، متجاوب وسريع جداً.</div>
-            <a href="https://vortx-editor.github.io/indxs/" target="_blank" class="btn-view">معاينة المشروع الحي 🚀</a>
+            <div class="project-desc">قالب منيو إلكتروني (QR Menu) فاخر مخصص للمطاعم والمقاهي المختصة، يعتمد على الهوية البصرية الداكنة العميقة وتناغم تفاصيل اللون الذهبي الملكي، متجاوب وخفيف جداً.</div>
+            <a href="https://vortx-editor.github.io/indxs/" target="_blank" class="action-link">معاينة المشروع الحي 🚀</a>
         </div>
 
-        <footer>&copy; 2026 جميع الحقوق محفوظة لجهة التطوير VORTX</footer>
+        <footer>&copy; 2026 جميع الحقوق محفوظة لاستديو التطوير VORTX</footer>
 
     </div>
 
