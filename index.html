@@ -4,51 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VORTX | معرض الأعمال الفاخر</title>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (مجاني) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* ========== المتغيرات ========== */
         :root {
-            --bg-gradient: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%);
-            --card-bg: rgba(15, 23, 42, 0.65);
-            --text-main: #f8fafc;
+            --bg-primary: #0b0f1a;
+            --bg-card: rgba(15, 23, 42, 0.55);
+            --text-main: #f0f4ff;
             --text-muted: #94a3b8;
+            --border-glow: rgba(255, 255, 255, 0.06);
             
-            /* ألوان النيون الصارخة للتباين العالي */
             --neon-docs: #00f2fe;
             --neon-design: #ff007f;
             --neon-media: #ff3366;
             --neon-dev: #10b981;
-
-            --glow-docs: 0 0 15px rgba(6, 182, 212, 0.5);
-            --glow-design: 0 0 15px rgba(236, 72, 153, 0.5);
-            --glow-media: 0 0 15px rgba(225, 29, 72, 0.5);
-            --glow-dev: 0 0 15px rgba(16, 185, 129, 0.5);
+            
+            --glow-docs: 0 0 25px rgba(0, 242, 254, 0.4);
+            --glow-design: 0 0 25px rgba(255, 0, 127, 0.4);
+            --glow-media: 0 0 25px rgba(255, 51, 102, 0.4);
+            --glow-dev: 0 0 25px rgba(16, 185, 129, 0.4);
         }
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
             font-family: 'Cairo', sans-serif;
         }
 
         body {
-            background: var(--bg-gradient);
+            background: var(--bg-primary);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 50px 20px;
+            padding: 30px 20px;
+            position: relative;
             overflow-x: hidden;
         }
 
-        .portfolio-container {
+        /* ========== الخلفية المتحركة (جسيمات) ========== */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 850px;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
         }
 
+        .portfolio-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        /* ========== الهيدر ========== */
         .header-section {
             text-align: center;
             margin-bottom: 60px;
@@ -56,145 +75,206 @@
         }
 
         .header-section h1 {
-            font-size: 2.8rem;
+            font-size: 3.2rem;
             font-weight: 900;
             text-transform: uppercase;
-            background: linear-gradient(45deg, var(--neon-design), #6366f1, var(--neon-docs));
-            background-size: 200% auto;
+            background: linear-gradient(135deg, var(--neon-docs), #a78bfa, var(--neon-design));
+            background-size: 300% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: shineText 4s linear infinite;
-            margin-bottom: 15px;
-            text-shadow: 0 0 30px rgba(99, 102, 241, 0.2);
+            animation: shineText 6s linear infinite;
+            text-shadow: 0 0 40px rgba(167, 139, 250, 0.15);
+            letter-spacing: 1px;
         }
 
         .header-section p {
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             letter-spacing: 0.5px;
+            margin-top: 8px;
+            opacity: 0.8;
         }
 
+        /* ========== شبكة المشاريع ========== */
         .projects-grid {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 30px;
         }
 
+        /* ========== بطاقة المشروع ========== */
         .project-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 30px;
+            background: var(--bg-card);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid var(--border-glow);
+            border-radius: 28px;
+            padding: 28px 24px 32px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 18px;
             position: relative;
             overflow: hidden;
             opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            transform: translateY(40px);
+            animation: fadeInUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
-        /* لمعة الـ Sheen المطرقة */
         .project-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -150%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 100%);
-            transform: skewX(-25deg);
-            transition: 0.75s;
-        }
-
-        .project-card:hover::before {
-            left: 150%;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+            pointer-events: none;
         }
 
         .project-card:hover {
-            transform: translateY(-6px) scale(1.01);
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            transform: translateY(-8px) scale(1.01);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
         }
 
+        /* ========== رأس البطاقة ========== */
         .card-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
+            gap: 12px;
             flex-wrap: wrap;
-            gap: 15px;
         }
 
         .project-title {
-            font-size: 1.45rem;
+            font-size: 1.35rem;
             font-weight: 700;
-            color: #ffffff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
 
+        .project-title i {
+            font-size: 1.6rem;
+            color: var(--neon-docs);
+        }
+
+        /* ========== الشارة ========== */
         .badge {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 700;
-            padding: 6px 16px;
-            border-radius: 30px;
-            letter-spacing: 0.5px;
+            padding: 4px 16px;
+            border-radius: 40px;
+            letter-spacing: 0.4px;
+            white-space: nowrap;
+            border: 1px solid transparent;
         }
+        .badge-docs { background: rgba(0, 242, 254, 0.12); color: var(--neon-docs); border-color: rgba(0, 242, 254, 0.25); }
+        .badge-design { background: rgba(255, 0, 127, 0.12); color: var(--neon-design); border-color: rgba(255, 0, 127, 0.25); }
+        .badge-media { background: rgba(255, 51, 102, 0.12); color: var(--neon-media); border-color: rgba(255, 51, 102, 0.25); }
+        .badge-dev { background: rgba(16, 185, 129, 0.12); color: var(--neon-dev); border-color: rgba(16, 185, 129, 0.25); }
 
-        .badge-docs { background: rgba(6, 182, 212, 0.15); color: var(--neon-docs); border: 1px solid rgba(6, 182, 212, 0.4); }
-        .badge-design { background: rgba(236, 72, 153, 0.15); color: var(--neon-secondary); border: 1px solid rgba(236, 72, 153, 0.4); }
-        .badge-media { background: rgba(225, 29, 72, 0.15); color: var(--neon-media); border: 1px solid rgba(225, 29, 72, 0.4); }
-        .badge-dev { background: rgba(16, 185, 129, 0.15); color: var(--neon-dev); border: 1px solid rgba(16, 185, 129, 0.4); }
-
+        /* ========== الوصف ========== */
         .project-desc {
             color: var(--text-muted);
-            font-size: 1.05rem;
+            font-size: 0.98rem;
             line-height: 1.8;
+            flex: 1;
         }
 
-        /* أزرار نيون واضحة جداً وبارزة قبل الحوم لمنع تداخل الخلفية */
+        /* ========== عداد المشروع (تفاعلي) ========== */
+        .project-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 6px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .stat-item i {
+            font-size: 1rem;
+            color: var(--neon-docs);
+        }
+        .stat-number {
+            font-weight: 700;
+            color: #fff;
+            font-size: 1rem;
+            direction: ltr;
+        }
+
+        /* ========== شريط تقدم وهمي (للفخامة) ========== */
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 2px;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 6px;
+            background: linear-gradient(90deg, var(--neon-docs), #a78bfa);
+            transition: width 1.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* ========== الأزرار (نيون متقدم) ========== */
         .action-btn {
             align-self: flex-start;
             border: 2px solid var(--btn-border);
             background: var(--btn-bg-init);
             color: var(--btn-text-init);
-            padding: 12px 28px;
-            border-radius: 12px;
+            padding: 12px 26px;
+            border-radius: 40px;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.95rem;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .action-btn i {
+            font-size: 1.1rem;
         }
 
-        /* تلوين كل زر حسب قسمه الأصلي لزيادة التباين البصري الكاشف */
-        .project-card:nth-child(1) .action-btn { --btn-border: var(--neon-docs); --btn-bg-init: rgba(6, 182, 212, 0.08); --btn-text-init: var(--neon-docs); }
-        .project-card:nth-child(2) .action-btn { --btn-border: var(--neon-secondary); --btn-bg-init: rgba(236, 72, 153, 0.08); --btn-text-init: var(--neon-secondary); }
-        .project-card:nth-child(3) .action-btn { --btn-border: var(--neon-media); --btn-bg-init: rgba(225, 29, 72, 0.08); --btn-text-init: var(--neon-media); }
+        /* تلوين الأزرار حسب القسم */
+        .project-card:nth-child(1) .action-btn { --btn-border: var(--neon-docs); --btn-bg-init: rgba(0, 242, 254, 0.08); --btn-text-init: var(--neon-docs); }
+        .project-card:nth-child(2) .action-btn { --btn-border: var(--neon-design); --btn-bg-init: rgba(255, 0, 127, 0.08); --btn-text-init: var(--neon-design); }
+        .project-card:nth-child(3) .action-btn { --btn-border: var(--neon-media); --btn-bg-init: rgba(255, 51, 102, 0.08); --btn-text-init: var(--neon-media); }
         .project-card:nth-child(4) .action-btn { --btn-border: var(--neon-dev); --btn-bg-init: rgba(16, 185, 129, 0.08); --btn-text-init: var(--neon-dev); }
         .project-card:nth-child(5) .action-btn { --btn-border: var(--neon-dev); --btn-bg-init: rgba(16, 185, 129, 0.08); --btn-text-init: var(--neon-dev); }
 
-        /* تفاعل التوهج الكامل عند الحوم فوق الكرت */
-        .project-card:nth-child(1):hover .action-btn { background: var(--neon-docs); box-shadow: var(--glow-docs); color: #000; }
-        .project-card:nth-child(2):hover .action-btn { background: var(--neon-secondary); box-shadow: var(--glow-design); color: #fff; }
-        .project-card:nth-child(3):hover .action-btn { background: var(--neon-media); box-shadow: var(--glow-media); color: #fff; }
-        .project-card:nth-child(4):hover .action-btn { background: var(--neon-dev); box-shadow: var(--glow-dev); color: #000; }
-        .project-card:nth-child(5):hover .action-btn { background: var(--neon-dev); box-shadow: var(--glow-dev); color: #000; }
+        /* تفاعل الزر عند hover البطاقة (الأمر رائع) */
+        .project-card:nth-child(1):hover .action-btn { background: var(--neon-docs); box-shadow: var(--glow-docs); color: #000; border-color: var(--neon-docs); }
+        .project-card:nth-child(2):hover .action-btn { background: var(--neon-design); box-shadow: var(--glow-design); color: #fff; border-color: var(--neon-design); }
+        .project-card:nth-child(3):hover .action-btn { background: var(--neon-media); box-shadow: var(--glow-media); color: #fff; border-color: var(--neon-media); }
+        .project-card:nth-child(4):hover .action-btn { background: var(--neon-dev); box-shadow: var(--glow-dev); color: #000; border-color: var(--neon-dev); }
+        .project-card:nth-child(5):hover .action-btn { background: var(--neon-dev); box-shadow: var(--glow-dev); color: #000; border-color: var(--neon-dev); }
 
-        /* توقيت التحريكات */
-        .project-card:nth-child(1) { animation-delay: 0.15s; }
-        .project-card:nth-child(2) { animation-delay: 0.3s; }
-        .project-card:nth-child(3) { animation-delay: 0.45s; }
-        .project-card:nth-child(4) { animation-delay: 0.6s; }
-        .project-card:nth-child(5) { animation-delay: 0.75s; }
+        /* ========== التأخيرات ========== */
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.2s; }
+        .project-card:nth-child(3) { animation-delay: 0.3s; }
+        .project-card:nth-child(4) { animation-delay: 0.4s; }
+        .project-card:nth-child(5) { animation-delay: 0.5s; }
 
+        /* ========== الحركات ========== */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
@@ -204,21 +284,25 @@
             to { opacity: 1; transform: translateY(0); }
         }
         @keyframes shineText {
-            to { background-position: 200% center; }
+            to { background-position: 300% center; }
         }
 
-        @media (max-width: 600px) {
-            body { padding: 30px 15px; }
-            .header-section h1 { font-size: 2.1rem; }
-            .project-title { font-size: 1.25rem; }
+        /* ========== استجابة الجوال ========== */
+        @media (max-width: 700px) {
+            .header-section h1 { font-size: 2.2rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .project-title { font-size: 1.2rem; }
             .action-btn { width: 100%; justify-content: center; }
         }
     </style>
 </head>
 <body>
 
+    <!-- ===== خلفية الجسيمات ===== -->
+    <canvas id="particles-canvas"></canvas>
+
     <div class="portfolio-container">
-        
+
         <div class="header-section">
             <h1>معرض أعمال VORTX الرقمي</h1>
             <p>مجموعة الأدوات المتقدمة في إنتاج الموشن جرافيك، وبناء المستندات، وتطوير الويب</p>
@@ -226,59 +310,219 @@
 
         <div class="projects-grid">
 
-            <!-- 1. قسم المستندات (البوستر الأكاديمي) -->
-            <div class="project-card">
+            <!-- 1. المستندات -->
+            <div class="project-card" data-progress="95">
                 <div class="card-header">
-                    <div class="project-title">📚 قوالب المستندات والبوسترات الأكاديمية والبحثية</div>
+                    <div class="project-title"><i class="fas fa-file-alt"></i> قوالب المستندات والبوسترات</div>
                     <span class="badge badge-docs">مستندات وتصاميم</span>
                 </div>
                 <div class="project-desc">حقيبة متكاملة تحتوي على قوالب بوسترات علمية مخصصة للبحوث والمشاريع الجامعية والمؤتمرات. تمتاز بالتنسيق البصري العالي وفق المعايير الأكاديمية، وهي جاهزة تماماً ومفتوحة المصدر لإعادة التعديل المباشر واستبدال البيانات.</div>
-                <a href="https://drive.google.com/drive/folders/1juRfckUbJjHy1ukaYXJzdLxciKnt_UCz" target="_blank" class="action-btn">تصفح المجلد ومعاينة قوالب التعديل 🔗</a>
+                <div class="project-stats">
+                    <span class="stat-item"><i class="fas fa-file-pdf"></i> <span class="stat-number">14</span> قالب</span>
+                    <span class="stat-item"><i class="fas fa-download"></i> <span class="stat-number">230+</span> تحميل</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 95%;"></div></div>
+                <a href="https://drive.google.com/drive/folders/1juRfckUbJjHy1ukaYXJzdLxciKnt_UCz" target="_blank" class="action-btn"><i class="fas fa-external-link-alt"></i> تصفح المجلد ومعاينة القوالب</a>
             </div>
 
-            <!-- 2. قسم التصميم والموشن (حزمة الإيدت والـ CC والشيكات) -->
-            <div class="project-card">
+            <!-- 2. الموشن جرافيك -->
+            <div class="project-card" data-progress="88">
                 <div class="card-header">
-                    <div class="project-title">🎬 حزمة تأثيرات الموشن جرافيك وإنتاج الفيديو (Free Fire)</div>
+                    <div class="project-title"><i class="fas fa-video"></i> حزمة تأثيرات الموشن جرافيك</div>
                     <span class="badge badge-design">موشن جرافيك وفيديو</span>
                 </div>
                 <div class="project-desc">حزمة أدوات ومؤثرات بصرية احترافية مخصصة لصناع المحتوى ومونتاج الألعاب الرقمية السريعة. تتضمن ملفات تصحيح الألوان السينمائية (Color Correction) وملفات حركة الكاميرا الاهتزازية (Shakes) المفتوحة، مع مقطع مرئي حي يستعرض كفاءة وجودة هذه التأثيرات بعد المعالجة الرقمية الفائقة.</div>
-                <a href="https://drive.google.com/drive/folders/1Y5fbEeTRB6gJf46LYOGlIXm5zX7AS19Q" target="_blank" class="action-btn">معاينة مقطع الفيديو وتحميل الحزمة 🚀</a>
+                <div class="project-stats">
+                    <span class="stat-item"><i class="fas fa-film"></i> <span class="stat-number">23</span> تأثير</span>
+                    <span class="stat-item"><i class="fas fa-eye"></i> <span class="stat-number">1.2k</span> معاينة</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 88%;"></div></div>
+                <a href="https://drive.google.com/drive/folders/1Y5fbEeTRB6gJf46LYOGlIXm5zX7AS19Q" target="_blank" class="action-btn"><i class="fas fa-play-circle"></i> معاينة الفيديو وتحميل الحزمة</a>
             </div>
 
-            <!-- 3. قسم المنصة الرقمية وقناة المحتوى معدل الاسم بطلبك -->
-            <div class="project-card">
+            <!-- 3. قناة فورتكس -->
+            <div class="project-card" data-progress="70">
                 <div class="card-header">
-                    <div class="project-title">📱 واجهة رقمية لقناة فورتكس</div>
+                    <div class="project-title"><i class="fas fa-tv"></i> واجهة رقمية لقناة فورتكس</div>
                     <span class="badge badge-media">منصات مرئية</span>
                 </div>
                 <div class="project-desc">المنصة الرسمية وقناة إنتاج المقاطع المرئية التنافسية للألعاب الرقمية؛ حيث يتم تطبيق واختبار جميع قوالب الموشن جرافيك، وتصحيحات الألوان، وفلاتر الرفع البصري التي تم تطويرها شخصياً قياس مدى تفاعل الجماهير ونمو القيمة السوقية للبراند.</div>
-                <a href="#" target="_blank" class="action-btn">زيارة منصة المحتوى المرئي 🔗</a>
+                <div class="project-stats">
+                    <span class="stat-item"><i class="fas fa-users"></i> <span class="stat-number">4.8k</span> متابع</span>
+                    <span class="stat-item"><i class="fas fa-video"></i> <span class="stat-number">67</span> مقطع</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 70%;"></div></div>
+                <a href="#" target="_blank" class="action-btn"><i class="fas fa-external-link-alt"></i> زيارة منصة المحتوى المرئي</a>
             </div>
 
-            <!-- 4. قسم تطوير الويب (منيو الكافيه) -->
-            <div class="project-card">
+            <!-- 4. منيو الكافيه -->
+            <div class="project-card" data-progress="100">
                 <div class="card-header">
-                    <div class="project-title">☕ تطبيق ويب قائمة الطعام الرقمية (Aroma Café Menu)</div>
+                    <div class="project-title"><i class="fas fa-coffee"></i> تطبيق ويب قائمة الطعام (Aroma Café)</div>
                     <span class="badge badge-dev">تطوير الويب</span>
                 </div>
                 <div class="project-desc">قائمة طعام تفاعلية ذكية مخصصة للمطاعم والمقاهي، مبنية بالكامل باستخدام تقنيات الويب الأساسية. تتميز بواجهة مستخدم متجاوبة (Responsive UI)، سرعة فائقة في التنقل بين الأقسام، وتجربة تصفح مرنة ومريحة متوافقة مع جميع الشاشات والهواتف الذكية.</div>
-                <a href="#" target="_blank" class="action-btn">تصفح النسخة الحية للمنيو 🌐</a>
+                <div class="project-stats">
+                    <span class="stat-item"><i class="fas fa-code"></i> <span class="stat-number">HTML/CSS/JS</span></span>
+                    <span class="stat-item"><i class="fas fa-mobile-alt"></i> <span class="stat-number">100%</span> متجاوب</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 100%;"></div></div>
+                <a href="#" target="_blank" class="action-btn"><i class="fas fa-external-link-alt"></i> تصفح النسخة الحية للمنيو</a>
             </div>
 
-            <!-- 5. قسم تطوير الويب (منصة التهاني) -->
-            <div class="project-card">
+            <!-- 5. منصة التهاني -->
+            <div class="project-card" data-progress="65">
                 <div class="card-header">
-                    <div class="project-title">🎉 منصة بطاقات التهاني والمناسبات الرقمية التفاعلية</div>
+                    <div class="project-title"><i class="fas fa-gift"></i> منصة بطاقات التهاني الرقمية</div>
                     <span class="badge badge-dev">تطوير الويب</span>
                 </div>
                 <div class="project-desc">منصة ويب متكاملة تتيح للمستخدمين توليد وتخصيص بطاقات التهنئة والمباركات الرقمية بشكل فوري وتفاعلي. التطبيق مبني بأكواد برمجية نظيفة خالية من الأخطاء، مع دعم كامل للأنظمة المظلمة والمضيئة والمؤثرات الحركية الجاذبة للمستخدمين.</div>
-                <a href="#" target="_blank" class="action-btn">تشغيل تطبيق منصة التهاني 🌐</a>
+                <div class="project-stats">
+                    <span class="stat-item"><i class="fas fa-palette"></i> <span class="stat-number">12</span> قالب</span>
+                    <span class="stat-item"><i class="fas fa-share-alt"></i> <span class="stat-number">340+</span> مشاركة</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 65%;"></div></div>
+                <a href="#" target="_blank" class="action-btn"><i class="fas fa-external-link-alt"></i> تشغيل تطبيق منصة التهاني</a>
             </div>
 
         </div>
-
     </div>
+
+    <script>
+        // ============================================================
+        // 1. خلفية الجسيمات (Particles)
+        // ============================================================
+        (function() {
+            const canvas = document.getElementById('particles-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let mouseX = 0, mouseY = 0;
+            let animationId;
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2.5 + 0.5;
+                    this.speedX = (Math.random() - 0.5) * 0.4;
+                    this.speedY = (Math.random() - 0.5) * 0.4;
+                    this.opacity = Math.random() * 0.5 + 0.2;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                    // تأثير الماوس
+                    const dx = mouseX - this.x;
+                    const dy = mouseY - this.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < 120) {
+                        const force = (120 - dist) / 120 * 0.15;
+                        this.x += (dx / dist) * force;
+                        this.y += (dy / dist) * force;
+                    }
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                    ctx.fill();
+                }
+            }
+
+            function initParticles(count = 90) {
+                particles = [];
+                for (let i = 0; i < count; i++) {
+                    particles.push(new Particle());
+                }
+            }
+            initParticles();
+
+            function drawLines() {
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+                        if (dist < 140) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            const opacity = (140 - dist) / 140 * 0.2;
+                            ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
+                            ctx.lineWidth = 0.6;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                drawLines();
+                animationId = requestAnimationFrame(animateParticles);
+            }
+            animateParticles();
+
+            // تتبع الماوس
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+            // للجوال: نعتمد على اللمس
+            document.addEventListener('touchmove', (e) => {
+                if (e.touches.length > 0) {
+                    mouseX = e.touches[0].clientX;
+                    mouseY = e.touches[0].clientY;
+                }
+            }, { passive: true });
+
+            // إيقاف الحركة عند مغادرة التبويب لتوفير الطاقة
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    cancelAnimationFrame(animationId);
+                } else {
+                    animateParticles();
+                }
+            });
+        })();
+
+        // ============================================================
+        // 2. عداد الأرقام عند التمرير (تأثير تفاعلي)
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            // نترك الأعداد كما هي (لا داعي لتغييرها، فهي معروضة بالفعل)
+            // لكن نضيف تأثيراً بسيطاً: عند تمرير الماوس فوق البطاقة، يتغير لون العداد
+            document.querySelectorAll('.project-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    const nums = card.querySelectorAll('.stat-number');
+                    nums.forEach(num => {
+                        num.style.transition = 'color 0.3s';
+                        num.style.color = '#a78bfa';
+                    });
+                });
+                card.addEventListener('mouseleave', () => {
+                    const nums = card.querySelectorAll('.stat-number');
+                    nums.forEach(num => {
+                        num.style.color = '#fff';
+                    });
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>
