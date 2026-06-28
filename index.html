@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VORTX | معرض الأعمال الاحترافي</title>
+    <title>VORTX | معرض الأعمال الفاخر</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: #151c2e;
-            --accent-color: #6366f1;
-            --accent-glow: rgba(99, 102, 241, 0.15);
+            --bg-gradient: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%);
+            --card-bg: rgba(15, 23, 42, 0.55);
+            --border-glow: rgba(99, 102, 241, 0.2);
+            --neon-primary: #6366f1;
+            --neon-secondary: #ff007f;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --tag-docs: #06b6d4;
-            --tag-design: #ec4899;
-            --tag-media: #e11d48;
-            --tag-dev: #10b981;
+            
+            --glow-docs: 0 0 15px rgba(6, 182, 212, 0.4);
+            --glow-design: 0 0 15px rgba(236, 72, 153, 0.4);
+            --glow-media: 0 0 15px rgba(225, 29, 72, 0.4);
+            --glow-dev: 0 0 15px rgba(16, 185, 129, 0.4);
         }
 
         * {
@@ -29,13 +31,14 @@
         }
 
         body {
-            background-color: var(--bg-color);
+            background: var(--bg-gradient);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 40px 20px;
+            padding: 50px 20px;
+            overflow-x: hidden;
         }
 
         .portfolio-container {
@@ -43,50 +46,79 @@
             max-width: 850px;
         }
 
+        /* تحريك لوجو الهيدر الفخم */
         .header-section {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
+            animation: fadeInDown 1s ease-out;
         }
 
         .header-section h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 900;
-            letter-spacing: 1px;
-            background: linear-gradient(to left, #ffffff, #6366f1);
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #ff007f, #6366f1, #00f2fe);
+            background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
+            animation: shineText 4s linear infinite;
+            margin-bottom: 15px;
+            text-shadow: 0 0 30px rgba(99, 102, 241, 0.2);
         }
 
         .header-section p {
             color: var(--text-muted);
             font-size: 1.1rem;
-            font-weight: 400;
+            letter-spacing: 0.5px;
         }
 
         .projects-grid {
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 30px;
         }
 
+        /* كروت الجلاسمورفيزم مع الانعكاس والتحريك */
         .project-card {
-            background-color: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 25px;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 30px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 20px;
             position: relative;
             overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
+        /* انعكاس اللمعة عند مرور الماوس Sheen Effect */
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.13) 50%, rgba(255, 255, 255, 0) 100%);
+            transform: skewX(-25deg);
+            transition: 0.75s;
+        }
+
+        .project-card:hover::before {
+            left: 150%;
+        }
+
+        /* تأثيرات الارتفاع وتوهج الحدود الخارجي */
         .project-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent-color);
-            box-shadow: 0 10px 30px var(--accent-glow);
+            transform: translateY(-6px) scale(1.01);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(99, 102, 241, 0.1);
         }
 
         .card-header {
@@ -94,59 +126,87 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 15px;
         }
 
         .project-title {
-            font-size: 1.4rem;
+            font-size: 1.45rem;
             font-weight: 700;
-            color: var(--text-main);
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
+        /* الأوسمة المشعة النيون */
         .badge {
             font-size: 0.8rem;
-            font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 20px;
-            text-transform: uppercase;
+            font-weight: 700;
+            padding: 6px 16px;
+            border-radius: 30px;
+            letter-spacing: 0.5px;
+            box-shadow: inset 0 0 8px cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .badge-docs { background-color: rgba(6, 182, 212, 0.15); color: var(--tag-docs); }
-        .badge-design { background-color: rgba(236, 72, 153, 0.15); color: var(--tag-design); }
-        .badge-media { background-color: rgba(225, 29, 72, 0.15); color: var(--tag-media); }
-        .badge-dev { background-color: rgba(16, 185, 129, 0.15); color: var(--tag-dev); }
+        .badge-docs { background: rgba(6, 182, 212, 0.1); color: #00f2fe; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .badge-design { background: rgba(236, 72, 153, 0.1); color: #ff007f; border: 1px solid rgba(236, 72, 153, 0.3); }
+        .badge-media { background: rgba(225, 29, 72, 0.1); color: #ff3366; border: 1px solid rgba(225, 29, 72, 0.3); }
+        .badge-dev { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); }
 
         .project-desc {
             color: var(--text-muted);
-            font-size: 1rem;
-            line-height: 1.7;
+            font-size: 1.05rem;
+            line-height: 1.8;
         }
 
+        /* أزرار ميتاليك متوهجة وتتحول لنيون كامل */
         .action-btn {
             align-self: flex-start;
-            background-color: rgba(255, 255, 255, 0.03);
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-main);
-            padding: 10px 22px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 0.95rem;
+            color: #ffffff;
+            padding: 12px 26px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
             text-decoration: none;
-            transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .project-card:hover .action-btn {
-            background-color: var(--accent-color);
-            border-color: var(--accent-color);
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        /* تفاعل التوهج الملون لكل قسم عند الحوم */
+        .project-card:nth-child(1):hover .action-btn { background: #06b6d4; box-shadow: var(--glow-docs); border-color: #06b6d4; color: #000; }
+        .project-card:nth-child(2):hover .action-btn { background: #ff007f; box-shadow: var(--glow-design); border-color: #ff007f; color: #fff; }
+        .project-card:nth-child(3):hover .action-btn { background: #e11d48; box-shadow: var(--glow-media); border-color: #e11d48; color: #fff; }
+        .project-card:nth-child(4):hover .action-btn { background: #10b981; box-shadow: var(--glow-dev); border-color: #10b981; color: #000; }
+        .project-card:nth-child(5):hover .action-btn { background: #10b981; box-shadow: var(--glow-dev); border-color: #10b981; color: #000; }
+
+        /* توقيت التحريكات المتتالية للكروت */
+        .project-card:nth-child(1) { animation-delay: 0.15s; }
+        .project-card:nth-child(2) { animation-delay: 0.3s; }
+        .project-card:nth-child(3) { animation-delay: 0.45s; }
+        .project-card:nth-child(4) { animation-delay: 0.6s; }
+        .project-card:nth-child(5) { animation-delay: 0.75s; }
+
+        /* جرد الحركات Keyframes */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes shineText {
+            to { background-position: 200% center; }
         }
 
         @media (max-width: 600px) {
-            .header-section h1 { font-size: 2rem; }
-            .project-title { font-size: 1.2rem; }
+            body { padding: 30px 15px; }
+            .header-section h1 { font-size: 2.1rem; }
+            .project-title { font-size: 1.25rem; }
+            .action-btn { width: 100%; justify-content: center; }
         }
     </style>
 </head>
@@ -155,8 +215,8 @@
     <div class="portfolio-container">
         
         <div class="header-section">
-            <h1>معرض أعمال VORTX الاحترافي</h1>
-            <p>منصة متكاملة تستعرض حلول تطوير الويب، والمستندات الأكاديمية، والإنتاج المرئي الرقمي</p>
+            <h1>معرض أعمال VORTX الرقمي</h1>
+            <p>مجموعة الأدوات المتقدمة في إنتاج الموشن جرافيك، وبناء المستندات، وتطوير الويب</p>
         </div>
 
         <div class="projects-grid">
@@ -187,7 +247,7 @@
                     <div class="project-title">📱 قناة VORTX الرقمية لصناعة المحتوى المرئي</div>
                     <span class="badge badge-media">منصات مرئية</span>
                 </div>
-                <div class="project-desc">المنصة الرسمية وقناة إنتاج المقاطع المرئية التنافسية للألعاب الرقمية؛ حيث يتم تطبيق واختبار جميع قوالب الموشن جرافيك، وتصحيحات الألوان، وفلاتر الرفع البصري التي تم تطويرها شخصياً لقياس مدى تفاعل الجماهير ونمو القيمة السوقية للبراند.</div>
+                <div class="project-desc">المنصة الرسمية وقناة إنتاج المقاطع المرئية التنافسية للألعاب الرقمية؛ حيث يتم تطبيق واختبار جميع قوالب الموشن جرافيك، وتصحيحات الألوان، وفلاتر الرفع البصري التي تم تطويرها شخصياً قياس مدى تفاعل الجماهير ونمو القيمة السوقية للبراند.</div>
                 <!-- تنبيه: استبدل علامة # برابط قناتك الفعلي بالأسفل في حال أردت ربطها مباشرة -->
                 <a href="#" target="_blank" class="action-btn">زيارة منصة المحتوى المرئي 🔗</a>
             </div>
