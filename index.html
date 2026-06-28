@@ -10,17 +10,20 @@
     <style>
         :root {
             --bg-gradient: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%);
-            --card-bg: rgba(15, 23, 42, 0.55);
-            --border-glow: rgba(99, 102, 241, 0.2);
-            --neon-primary: #6366f1;
-            --neon-secondary: #ff007f;
+            --card-bg: rgba(15, 23, 42, 0.65);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             
-            --glow-docs: 0 0 15px rgba(6, 182, 212, 0.4);
-            --glow-design: 0 0 15px rgba(236, 72, 153, 0.4);
-            --glow-media: 0 0 15px rgba(225, 29, 72, 0.4);
-            --glow-dev: 0 0 15px rgba(16, 185, 129, 0.4);
+            /* ألوان النيون الصارخة للتباين العالي */
+            --neon-docs: #00f2fe;
+            --neon-design: #ff007f;
+            --neon-media: #ff3366;
+            --neon-dev: #10b981;
+
+            --glow-docs: 0 0 15px rgba(6, 182, 212, 0.5);
+            --glow-design: 0 0 15px rgba(236, 72, 153, 0.5);
+            --glow-media: 0 0 15px rgba(225, 29, 72, 0.5);
+            --glow-dev: 0 0 15px rgba(16, 185, 129, 0.5);
         }
 
         * {
@@ -46,7 +49,6 @@
             max-width: 850px;
         }
 
-        /* تحريك لوجو الهيدر الفخم */
         .header-section {
             text-align: center;
             margin-bottom: 60px;
@@ -57,7 +59,7 @@
             font-size: 2.8rem;
             font-weight: 900;
             text-transform: uppercase;
-            background: linear-gradient(45deg, #ff007f, #6366f1, #00f2fe);
+            background: linear-gradient(45deg, var(--neon-design), #6366f1, var(--neon-docs));
             background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -78,7 +80,6 @@
             gap: 30px;
         }
 
-        /* كروت الجلاسمورفيزم مع الانعكاس والتحريك */
         .project-card {
             background: var(--card-bg);
             backdrop-filter: blur(16px);
@@ -91,13 +92,13 @@
             gap: 20px;
             position: relative;
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
             opacity: 0;
             transform: translateY(30px);
             animation: fadeInUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* انعكاس اللمعة عند مرور الماوس Sheen Effect */
+        /* لمعة الـ Sheen المطرقة */
         .project-card::before {
             content: '';
             position: absolute;
@@ -105,7 +106,7 @@
             left: -150%;
             width: 50%;
             height: 100%;
-            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.13) 50%, rgba(255, 255, 255, 0) 100%);
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 100%);
             transform: skewX(-25deg);
             transition: 0.75s;
         }
@@ -114,11 +115,10 @@
             left: 150%;
         }
 
-        /* تأثيرات الارتفاع وتوهج الحدود الخارجي */
         .project-card:hover {
             transform: translateY(-6px) scale(1.01);
-            border-color: rgba(99, 102, 241, 0.4);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(99, 102, 241, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
 
         .card-header {
@@ -136,20 +136,18 @@
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
-        /* الأوسمة المشعة النيون */
         .badge {
             font-size: 0.8rem;
             font-weight: 700;
             padding: 6px 16px;
             border-radius: 30px;
             letter-spacing: 0.5px;
-            box-shadow: inset 0 0 8px cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .badge-docs { background: rgba(6, 182, 212, 0.1); color: #00f2fe; border: 1px solid rgba(6, 182, 212, 0.3); }
-        .badge-design { background: rgba(236, 72, 153, 0.1); color: #ff007f; border: 1px solid rgba(236, 72, 153, 0.3); }
-        .badge-media { background: rgba(225, 29, 72, 0.1); color: #ff3366; border: 1px solid rgba(225, 29, 72, 0.3); }
-        .badge-dev { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .badge-docs { background: rgba(6, 182, 212, 0.15); color: var(--neon-docs); border: 1px solid rgba(6, 182, 212, 0.4); }
+        .badge-design { background: rgba(236, 72, 153, 0.15); color: var(--neon-secondary); border: 1px solid rgba(236, 72, 153, 0.4); }
+        .badge-media { background: rgba(225, 29, 72, 0.15); color: var(--neon-media); border: 1px solid rgba(225, 29, 72, 0.4); }
+        .badge-dev { background: rgba(16, 185, 129, 0.15); color: var(--neon-dev); border: 1px solid rgba(16, 185, 129, 0.4); }
 
         .project-desc {
             color: var(--text-muted);
@@ -157,13 +155,13 @@
             line-height: 1.8;
         }
 
-        /* أزرار ميتاليك متوهجة وتتحول لنيون كامل */
+        /* أزرار نيون واضحة جداً وبارزة قبل الحوم لمنع تداخل الخلفية */
         .action-btn {
             align-self: flex-start;
-            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            padding: 12px 26px;
+            border: 2px solid var(--btn-border);
+            background: var(--btn-bg-init);
+            color: var(--btn-text-init);
+            padding: 12px 28px;
             border-radius: 12px;
             font-weight: 700;
             font-size: 1rem;
@@ -173,23 +171,30 @@
             gap: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
-        /* تفاعل التوهج الملون لكل قسم عند الحوم */
-        .project-card:nth-child(1):hover .action-btn { background: #06b6d4; box-shadow: var(--glow-docs); border-color: #06b6d4; color: #000; }
-        .project-card:nth-child(2):hover .action-btn { background: #ff007f; box-shadow: var(--glow-design); border-color: #ff007f; color: #fff; }
-        .project-card:nth-child(3):hover .action-btn { background: #e11d48; box-shadow: var(--glow-media); border-color: #e11d48; color: #fff; }
-        .project-card:nth-child(4):hover .action-btn { background: #10b981; box-shadow: var(--glow-dev); border-color: #10b981; color: #000; }
-        .project-card:nth-child(5):hover .action-btn { background: #10b981; box-shadow: var(--glow-dev); border-color: #10b981; color: #000; }
+        /* تلوين كل زر حسب قسمه الأصلي لزيادة التباين البصري الكاشف */
+        .project-card:nth-child(1) .action-btn { --btn-border: var(--neon-docs); --btn-bg-init: rgba(6, 182, 212, 0.08); --btn-text-init: var(--neon-docs); }
+        .project-card:nth-child(2) .action-btn { --btn-border: var(--neon-secondary); --btn-bg-init: rgba(236, 72, 153, 0.08); --btn-text-init: var(--neon-secondary); }
+        .project-card:nth-child(3) .action-btn { --btn-border: var(--neon-media); --btn-bg-init: rgba(225, 29, 72, 0.08); --btn-text-init: var(--neon-media); }
+        .project-card:nth-child(4) .action-btn { --btn-border: var(--neon-dev); --btn-bg-init: rgba(16, 185, 129, 0.08); --btn-text-init: var(--neon-dev); }
+        .project-card:nth-child(5) .action-btn { --btn-border: var(--neon-dev); --btn-bg-init: rgba(16, 185, 129, 0.08); --btn-text-init: var(--neon-dev); }
 
-        /* توقيت التحريكات المتتالية للكروت */
+        /* تفاعل التوهج الكامل عند الحوم فوق الكرت */
+        .project-card:nth-child(1):hover .action-btn { background: var(--neon-docs); box-shadow: var(--glow-docs); color: #000; }
+        .project-card:nth-child(2):hover .action-btn { background: var(--neon-secondary); box-shadow: var(--glow-design); color: #fff; }
+        .project-card:nth-child(3):hover .action-btn { background: var(--neon-media); box-shadow: var(--glow-media); color: #fff; }
+        .project-card:nth-child(4):hover .action-btn { background: var(--neon-dev); box-shadow: var(--glow-dev); color: #000; }
+        .project-card:nth-child(5):hover .action-btn { background: var(--neon-dev); box-shadow: var(--glow-dev); color: #000; }
+
+        /* توقيت التحريكات */
         .project-card:nth-child(1) { animation-delay: 0.15s; }
         .project-card:nth-child(2) { animation-delay: 0.3s; }
         .project-card:nth-child(3) { animation-delay: 0.45s; }
         .project-card:nth-child(4) { animation-delay: 0.6s; }
         .project-card:nth-child(5) { animation-delay: 0.75s; }
 
-        /* جرد الحركات Keyframes */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
@@ -241,14 +246,13 @@
                 <a href="https://drive.google.com/drive/folders/1Y5fbEeTRB6gJf46LYOGlIXm5zX7AS19Q" target="_blank" class="action-btn">معاينة مقطع الفيديو وتحميل الحزمة 🚀</a>
             </div>
 
-            <!-- 3. قسم المنصة الرقمية وقناة المحتوى -->
+            <!-- 3. قسم المنصة الرقمية وقناة المحتوى معدل الاسم بطلبك -->
             <div class="project-card">
                 <div class="card-header">
-                    <div class="project-title">📱 قناة VORTX الرقمية لصناعة المحتوى المرئي</div>
+                    <div class="project-title">📱 واجهة رقمية لقناة فورتكس</div>
                     <span class="badge badge-media">منصات مرئية</span>
                 </div>
                 <div class="project-desc">المنصة الرسمية وقناة إنتاج المقاطع المرئية التنافسية للألعاب الرقمية؛ حيث يتم تطبيق واختبار جميع قوالب الموشن جرافيك، وتصحيحات الألوان، وفلاتر الرفع البصري التي تم تطويرها شخصياً قياس مدى تفاعل الجماهير ونمو القيمة السوقية للبراند.</div>
-                <!-- تنبيه: استبدل علامة # برابط قناتك الفعلي بالأسفل في حال أردت ربطها مباشرة -->
                 <a href="#" target="_blank" class="action-btn">زيارة منصة المحتوى المرئي 🔗</a>
             </div>
 
@@ -259,7 +263,6 @@
                     <span class="badge badge-dev">تطوير الويب</span>
                 </div>
                 <div class="project-desc">قائمة طعام تفاعلية ذكية مخصصة للمطاعم والمقاهي، مبنية بالكامل باستخدام تقنيات الويب الأساسية. تتميز بواجهة مستخدم متجاوبة (Responsive UI)، سرعة فائقة في التنقل بين الأقسام، وتجربة تصفح مرنة ومريحة متوافقة مع جميع الشاشات والهواتف الذكية.</div>
-                <!-- تنبيه: استبدل علامة # برابط موقع المنيو المرفوع على GitHub Pages -->
                 <a href="#" target="_blank" class="action-btn">تصفح النسخة الحية للمنيو 🌐</a>
             </div>
 
@@ -270,7 +273,6 @@
                     <span class="badge badge-dev">تطوير الويب</span>
                 </div>
                 <div class="project-desc">منصة ويب متكاملة تتيح للمستخدمين توليد وتخصيص بطاقات التهنئة والمباركات الرقمية بشكل فوري وتفاعلي. التطبيق مبني بأكواد برمجية نظيفة خالية من الأخطاء، مع دعم كامل للأنظمة المظلمة والمضيئة والمؤثرات الحركية الجاذبة للمستخدمين.</div>
-                <!-- تنبيه: استبدل علامة # برابط موقع منصة التهاني المرفوع على GitHub Pages -->
                 <a href="#" target="_blank" class="action-btn">تشغيل تطبيق منصة التهاني 🌐</a>
             </div>
 
